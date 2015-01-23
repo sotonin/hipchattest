@@ -25,8 +25,6 @@
     </table>
 </div>
 <script>
-    var datehuman;
-    var data;
     var time;
     var results = prompt("Number of entries (1-1000)", "100");
 	var fromtime = prompt("Epoch time (milliseconds)", Math.round(new Date().getTime()) - 300000);
@@ -35,12 +33,6 @@
         time = Math.round(new Date().getTime()) - 300000;
         time = (new Date(time)).toISOString();
         json();
-    }
-
-    function table() {
-        $(document).ready(function() {
-            $('#table').DataTable();
-        });
     }
 
     function insertEntry(tableId, date, name, message) {
@@ -65,7 +57,7 @@
     function dateFormat(date2) {
         date2 = Date.parse(date2);
         date2 = new Date(date2);
-        datehuman = date2.toLocaleString();
+        return date2.toLocaleString();
     }
 
     function json() {
@@ -73,31 +65,13 @@
             if (typeof response.items != "undefined") {
                 $(response.items).each(function(index, data) {
                     var name = (typeof data.from.name != "undefined") ? data.from.name : data.from;
-
-                    console.log(data.date);
+                    var date = dateFormat(data.date);
+                    insertEntry("table", date, name, data.message);
                 });
+                $('#table').DataTable();
             }
         });
     }
-
-    function runData() {
-        for (var i = 0; i < data.items.length; i++) {
-            var text = document.getElementById('text'); //Text Div
-            var nameguest = data.items[i].from; //Guests
-            var nameuser = data.items[i].from.name; //Users
-            var message = data.items[i].message; //Messages
-            var table = document.getElementById("placedatahere"); //Table Div
-            dateFormat(data.items[i].date); //Date
-
-            if (typeof nameguest == "object") {
-                insertEntry("table", datehuman, nameuser, message);
-            } else {
-                insertEntry("table", datehuman, nameguest, message);
-            }
-        }
-    }
-    changeDate();
-	setTimeout(function(){ table(); }, 5000);
 </script>
 <style>
     .table tr > *:nth-child(1) {
