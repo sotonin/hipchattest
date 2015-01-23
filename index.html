@@ -65,7 +65,7 @@
             if (typeof response.items != "undefined") {
                 $(response.items).each(function(index, data) {
                     var name = (typeof data.from.name != "undefined") ? data.from.name : data.from;
-                    var date = dateFormat(data.date);
+                    var date = new Date(Date.parse(data.date)).toLocaleString();
                     insertEntry("table", date, name, data.message);
                 });
                 $('#table').DataTable();
