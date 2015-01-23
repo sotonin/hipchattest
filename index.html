@@ -72,7 +72,7 @@
         $.getJSON("https://nr-031.appspot.com/api.hipchat.com/v2/room/CodeCombat/history?auth_token=niI6idrpL9VWpZZixTAgqClXkDOycP6U5lMonuHQ&max-results=" + results + "&date=" + time, function(response) {
             if (typeof response.items != "undefined") {
                 $(response.items).each(function(index, data) {
-                    var name = (typeof data.from.name != "undefined") data.from.name : data.from;
+                    var name = (typeof data.from.name != "undefined") ? data.from.name : data.from;
 
                     console.log(data.date);
                 });
